@@ -154,11 +154,14 @@ VALUE sp_create_impl(class, _port)
       rb_sys_fail(sTcgetattr);
    }
 
+   // clean oflag and iflag, you may get unexpected behaviour if any bit of iflag/oflag is set.
    params.c_oflag = 0;
+   params.c_iflag = 0;
+
    params.c_lflag = 0;
-   params.c_iflag &= (IXON | IXOFF | IXANY);
+   
    params.c_cflag |= CLOCAL | CREAD;
-   params.c_cflag &= ~HUPCL;
+   params.c_cflag &= ~(HUPCL | CRTSCTS);  // default not use RTS/CTS hw flow control
 
    if (tcsetattr(fd, TCSANOW, &params) == -1)
    {
