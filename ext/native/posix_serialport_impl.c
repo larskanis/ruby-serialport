@@ -110,7 +110,7 @@ VALUE sp_create_impl(class, _port)
    struct termios params;
 
    NEWOBJ(sp, struct RFile);
-   OBJSETUP(sp, class, T_FILE);
+   OBJSETUP((VALUE) sp, class, T_FILE);
    MakeOpenFile((VALUE) sp, fp);
 
    switch(TYPE(_port))

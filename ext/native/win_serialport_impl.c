@@ -76,7 +76,7 @@ VALUE RB_SERIAL_EXPORT sp_create_impl(class, _port)
    DCB dcb;
 
    NEWOBJ(sp, struct RFile);
-   OBJSETUP(sp, class, T_FILE);
+   OBJSETUP((VALUE) sp, class, T_FILE);
    MakeOpenFile((VALUE) sp, fp);
 
    switch(TYPE(_port))
