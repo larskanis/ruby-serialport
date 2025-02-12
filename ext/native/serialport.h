@@ -22,11 +22,7 @@
 #define _RUBY_SERIAL_PORT_H_
 
 #include <ruby.h>    /* ruby inclusion */
-#ifdef HAVE_RUBY_IO_H      /* ruby io inclusion */
-   #include <ruby/io.h>
-#else
-   #include <rubyio.h>
-#endif
+#include <ruby/io.h>
 
 #ifndef HAVE_RB_IO_OPEN_DESCRIPTOR
 VALUE io_open_descriptor_fallback(VALUE klass, int descriptor, int mode, VALUE path, VALUE timeout, void *encoding);
@@ -61,14 +57,7 @@ struct line_signals
    #define EVEN   EVENPARITY
    #define ODD    ODDPARITY
 
-   #ifndef RB_SERIAL_EXPORT
-	 #ifndef HAVE_RUBY_IO_H
-     	#define RB_SERIAL_EXPORT __declspec(dllexport)
-	 #else
-		#define RB_SERIAL_EXPORT
-	 #endif
-   #endif
-
+   #define RB_SERIAL_EXPORT
 #else
    #define EVEN   1
    #define ODD    2

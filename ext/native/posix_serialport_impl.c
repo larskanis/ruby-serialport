@@ -64,17 +64,9 @@ static char sIoctl[] = "ioctl";
 int get_fd_helper(obj)
    VALUE obj;
 {
-#ifdef HAVE_RUBY_IO_H
    rb_io_t *fptr;
-#else
-   OpenFile *fptr;
-#endif
    GetOpenFile(obj, fptr);
-#ifdef HAVE_RUBY_IO_H
    return (fptr->fd);
-#else
-   return (fileno(fptr->f));
-#endif
 }
 
 VALUE sp_create_impl(class, _port)
