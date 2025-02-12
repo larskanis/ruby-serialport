@@ -1,5 +1,4 @@
 require 'serialport.so'
-require 'serialport/version'
 
 
 # This class is used for communication over a serial port.
@@ -7,7 +6,9 @@ require 'serialport/version'
 #
 # @see http://rubydoc.info/stdlib/core/IO Ruby IO class
 # @see http://www.cmrr.umn.edu/~strupp/serial.html "Serial Programming Guide for POSIX Operating Systems"
-class SerialPort
+class SerialPort < IO
+   autoload :VERSION, 'serialport/version'
+
    private_class_method(:create)
 
    # Creates a serial port object.

@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/serialport/version', __FILE__)
+$: << "lib"
+require "serialport/version"
 
 Gem::Specification.new do |s|
   s.name = "serialport"
