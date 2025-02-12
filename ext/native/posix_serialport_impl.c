@@ -61,12 +61,15 @@ static char sTcsetattr[] = "tcsetattr";
 static char sIoctl[] = "ioctl";
 
 
-int get_fd_helper(obj)
-   VALUE obj;
+int get_fd_helper(VALUE io)
 {
-   rb_io_t *fptr;
-   GetOpenFile(obj, fptr);
-   return (fptr->fd);
+#ifdef HAVE_RB_IO_DESCRIPTOR
+  return rb_io_descriptor(io);
+#else
+  rb_io_t* fp;
+  GetOpenFile(io, fp);
+  return fp->fd;
+#endif
 }
 
 VALUE sp_create_impl(class, _port)

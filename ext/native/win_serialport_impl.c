@@ -33,13 +33,15 @@ static char sGetCommTimeouts[] = "GetCommTimeouts";
 static char sSetCommTimeouts[] = "SetCommTimeouts";
 
 
-static HANDLE get_handle_helper(obj)
-   VALUE obj;
+static HANDLE get_handle_helper(VALUE io)
 {
-   rb_io_t *fptr;
-
-   GetOpenFile(obj, fptr);
-   return (HANDLE) _get_osfhandle(fptr->fd);
+#ifdef HAVE_RB_IO_DESCRIPTOR
+  return (HANDLE) _get_osfhandle(rb_io_descriptor(io));
+#else
+  rb_io_t* fp;
+  GetOpenFile(io, fp);
+  return (HANDLE) _get_osfhandle(fp->fd);
+#endif
 }
 
 /* hack to work around the fact that Ruby doesn't use GetLastError? */
