@@ -80,12 +80,6 @@ int get_fd_helper(obj)
 VALUE sp_create_impl(class, _port)
    VALUE class, _port;
 {
-#ifdef HAVE_RUBY_IO_H
-   rb_io_t *fp;
-#else
-   OpenFile *fp;
-#endif
-
    int fd;
    int num_port;
    char *port;
@@ -108,10 +102,7 @@ VALUE sp_create_impl(class, _port)
 #endif
    };
    struct termios params;
-
-   NEWOBJ(sp, struct RFile);
-   OBJSETUP(sp, class, T_FILE);
-   MakeOpenFile((VALUE) sp, fp);
+   VALUE sp;
 
    switch(TYPE(_port))
    {
@@ -166,14 +157,9 @@ VALUE sp_create_impl(class, _port)
       rb_sys_fail(sTcsetattr);
    }
 
-#ifdef HAVE_RUBY_IO_H
-   fp->fd = fd;
-#else
-   fp->f = rb_fdopen(fd, "r+");
-#endif
-   fp->mode = FMODE_READWRITE | FMODE_SYNC;
+   sp = rb_io_open_descriptor(class, fd, FMODE_READWRITE | FMODE_SYNC, Qnil, Qnil, NULL);
 
-   return (VALUE) sp;
+   return sp;
 }
 
 VALUE sp_set_modem_params_impl(argc, argv, self)

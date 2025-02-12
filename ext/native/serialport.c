@@ -20,6 +20,27 @@ VALUE cSerialPort; /* serial port class */
 VALUE sBaud, sDataBits, sStopBits, sParity; /* strings */
 VALUE sRts, sDtr, sCts, sDsr, sDcd, sRi;
 
+
+#ifndef HAVE_RB_IO_OPEN_DESCRIPTOR
+VALUE
+io_open_descriptor_fallback(VALUE klass, int descriptor, int mode, VALUE path, VALUE timeout, void *encoding)
+{
+    VALUE arguments[2] = {
+        (rb_update_max_fd(descriptor), INT2NUM(descriptor)),
+        INT2FIX(mode),
+    };
+
+    VALUE self = rb_class_new_instance(2, arguments, klass);
+
+    rb_io_t *fptr;
+    GetOpenFile(self, fptr);
+    fptr->pathv = path;
+    fptr->mode |= mode;
+
+    return self;
+}
+#endif
+
 /*
  * @api private
  *

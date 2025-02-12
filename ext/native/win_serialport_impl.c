@@ -62,22 +62,14 @@ static void _rb_win32_fail(const char *function_call) {
 VALUE RB_SERIAL_EXPORT sp_create_impl(class, _port)
    VALUE class, _port;
 {
-#ifdef HAVE_RUBY_IO_H
-   rb_io_t *fp;
-#else
-   OpenFile *fp;
-#endif
    int fd;
    HANDLE fh;
    int num_port;
    char *str_port;
    char port[260]; /* Windows XP MAX_PATH. See http://msdn.microsoft.com/en-us/library/aa365247(VS.85).aspx */
+   VALUE sp;
 
    DCB dcb;
-
-   NEWOBJ(sp, struct RFile);
-   OBJSETUP(sp, class, T_FILE);
-   MakeOpenFile((VALUE) sp, fp);
 
    switch(TYPE(_port))
    {
@@ -148,13 +140,8 @@ VALUE RB_SERIAL_EXPORT sp_create_impl(class, _port)
    }
 
    errno = 0;
-   fp->mode = FMODE_READWRITE | FMODE_BINMODE | FMODE_SYNC;
-#ifdef HAVE_RUBY_IO_H
-   fp->fd = fd;
-#else
-   fp->f = fdopen(fd, "rb+");
-#endif
-   return (VALUE) sp;
+   sp = rb_io_open_descriptor(class, fd, FMODE_READWRITE | FMODE_BINMODE | FMODE_SYNC, Qnil, Qnil, NULL);
+   return sp;
 }
 
 VALUE RB_SERIAL_EXPORT sp_set_modem_params_impl(argc, argv, self)

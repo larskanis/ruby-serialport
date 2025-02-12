@@ -28,6 +28,11 @@
    #include <rubyio.h>
 #endif
 
+#ifndef HAVE_RB_IO_OPEN_DESCRIPTOR
+VALUE io_open_descriptor_fallback(VALUE klass, int descriptor, int mode, VALUE path, VALUE timeout, void *encoding);
+#define rb_io_open_descriptor io_open_descriptor_fallback
+#endif
+
 struct modem_params
 {
    int data_rate;
