@@ -53,8 +53,7 @@ static void _rb_win32_fail(const char *function_call) {
   );
 }
 
-VALUE RB_SERIAL_EXPORT sp_create_impl(class, _port)
-   VALUE class, _port;
+VALUE RB_SERIAL_EXPORT sp_create_impl(VALUE class, VALUE _port)
 {
    int fd;
    HANDLE fh;
@@ -138,9 +137,7 @@ VALUE RB_SERIAL_EXPORT sp_create_impl(class, _port)
    return sp;
 }
 
-VALUE RB_SERIAL_EXPORT sp_set_modem_params_impl(argc, argv, self)
-   int argc;
-   VALUE *argv, self;
+VALUE RB_SERIAL_EXPORT sp_set_modem_params_impl(int argc, VALUE *argv, VALUE self)
 {
    HANDLE fh;
    DCB dcb;
@@ -275,9 +272,7 @@ VALUE RB_SERIAL_EXPORT sp_set_modem_params_impl(argc, argv, self)
    return argv[0];
 }
 
-void RB_SERIAL_EXPORT get_modem_params_impl(self, mp)
-   VALUE self;
-   struct modem_params *mp;
+void RB_SERIAL_EXPORT get_modem_params_impl(VALUE self, struct modem_params *mp)
 {
    HANDLE fh;
    DCB dcb;
@@ -295,8 +290,7 @@ void RB_SERIAL_EXPORT get_modem_params_impl(self, mp)
    mp->parity = dcb.Parity;
 }
 
-VALUE RB_SERIAL_EXPORT sp_set_flow_control_impl(self, val)
-   VALUE self, val;
+VALUE RB_SERIAL_EXPORT sp_set_flow_control_impl(VALUE self, VALUE val)
 {
    HANDLE fh;
    int flowc;
@@ -340,8 +334,7 @@ VALUE RB_SERIAL_EXPORT sp_set_flow_control_impl(self, val)
    return val;
 }
 
-VALUE RB_SERIAL_EXPORT sp_get_flow_control_impl(self)
-   VALUE self;
+VALUE RB_SERIAL_EXPORT sp_get_flow_control_impl(VALUE self)
 {
    HANDLE fh;
    int ret;
@@ -368,8 +361,7 @@ VALUE RB_SERIAL_EXPORT sp_get_flow_control_impl(self)
    return INT2FIX(ret);
 }
 
-VALUE RB_SERIAL_EXPORT sp_set_read_timeout_impl(self, val)
-   VALUE self, val;
+VALUE RB_SERIAL_EXPORT sp_set_read_timeout_impl(VALUE self, VALUE val)
 {
    int timeout;
    HANDLE fh;
@@ -411,8 +403,7 @@ VALUE RB_SERIAL_EXPORT sp_set_read_timeout_impl(self, val)
    return val;
 }
 
-VALUE RB_SERIAL_EXPORT sp_get_read_timeout_impl(self)
-   VALUE self;
+VALUE RB_SERIAL_EXPORT sp_get_read_timeout_impl(VALUE self)
 {
    HANDLE fh;
    COMMTIMEOUTS ctout;
@@ -434,8 +425,7 @@ VALUE RB_SERIAL_EXPORT sp_get_read_timeout_impl(self)
    return INT2FIX(ctout.ReadTotalTimeoutConstant);
 }
 
-VALUE RB_SERIAL_EXPORT sp_set_write_timeout_impl(self, val)
-   VALUE self, val;
+VALUE RB_SERIAL_EXPORT sp_set_write_timeout_impl(VALUE self, VALUE val)
 {
    int timeout;
    HANDLE fh;
@@ -469,8 +459,7 @@ VALUE RB_SERIAL_EXPORT sp_set_write_timeout_impl(self, val)
    return val;
 }
 
-VALUE RB_SERIAL_EXPORT sp_get_write_timeout_impl(self)
-   VALUE self;
+VALUE RB_SERIAL_EXPORT sp_get_write_timeout_impl(VALUE self)
 {
    HANDLE fh;
    COMMTIMEOUTS ctout;
@@ -484,8 +473,7 @@ VALUE RB_SERIAL_EXPORT sp_get_write_timeout_impl(self)
    return INT2FIX(ctout.WriteTotalTimeoutMultiplier);
 }
 
-static void delay_ms(time)
-   int time;
+static void delay_ms(int time)
 {
    HANDLE ev;
 
@@ -503,8 +491,7 @@ static void delay_ms(time)
    CloseHandle(ev);
 }
 
-VALUE RB_SERIAL_EXPORT sp_break_impl(self, time)
-   VALUE self, time;
+VALUE RB_SERIAL_EXPORT sp_break_impl(VALUE self, VALUE time)
 {
    HANDLE fh;
 
@@ -522,9 +509,7 @@ VALUE RB_SERIAL_EXPORT sp_break_impl(self, time)
    return Qnil;
 }
 
-void RB_SERIAL_EXPORT get_line_signals_helper_impl(obj, ls)
-   VALUE obj;
-   struct line_signals *ls;
+void RB_SERIAL_EXPORT get_line_signals_helper_impl(VALUE obj, struct line_signals *ls)
 {
    HANDLE fh;
    unsigned long status; /* DWORD */
@@ -541,9 +526,7 @@ void RB_SERIAL_EXPORT get_line_signals_helper_impl(obj, ls)
    ls->ri  = (status & MS_RING_ON ? 1 : 0);
 }
 
-static VALUE set_signal(obj, val, sigoff, sigon)
-   VALUE obj,val;
-   int sigoff, sigon;
+static VALUE set_signal(VALUE obj, VALUE val, int sigoff, int sigon)
 {
    HANDLE fh;
    int set, sig;
@@ -573,27 +556,23 @@ static VALUE set_signal(obj, val, sigoff, sigon)
    return val;
 }
 
-VALUE RB_SERIAL_EXPORT sp_set_rts_impl(self, val)
-   VALUE self, val;
+VALUE RB_SERIAL_EXPORT sp_set_rts_impl(VALUE self, VALUE val)
 {
    return set_signal(self, val, CLRRTS, SETRTS);
 }
 
-VALUE RB_SERIAL_EXPORT sp_set_dtr_impl(self, val)
-   VALUE self, val;
+VALUE RB_SERIAL_EXPORT sp_set_dtr_impl(VALUE self, VALUE val)
 {
    return set_signal(self, val, CLRDTR, SETDTR);
 }
 
-VALUE RB_SERIAL_EXPORT sp_get_rts_impl(self)
-   VALUE self;
+VALUE RB_SERIAL_EXPORT sp_get_rts_impl(VALUE self)
 {
    rb_notimplement();
    return self;
 }
 
-VALUE RB_SERIAL_EXPORT sp_get_dtr_impl(self)
-   VALUE self;
+VALUE RB_SERIAL_EXPORT sp_get_dtr_impl(VALUE self)
 {
    rb_notimplement();
    return self;
@@ -601,8 +580,7 @@ VALUE RB_SERIAL_EXPORT sp_get_dtr_impl(self)
 
 #define PURGE_RXABORT 0x02
 #define PURGE_RXCLEAR 0x08
-VALUE RB_SERIAL_EXPORT sp_flush_input_data_impl(self)
-	VALUE self;
+VALUE RB_SERIAL_EXPORT sp_flush_input_data_impl(VALUE self)
 {
 	BOOL   ret;
 	HANDLE fh;
@@ -618,8 +596,7 @@ VALUE RB_SERIAL_EXPORT sp_flush_input_data_impl(self)
 
 #define PURGE_TXABORT 0x01
 #define PURGE_TXCLEAR 0x04
-VALUE RB_SERIAL_EXPORT sp_flush_output_data_impl(self)
-	VALUE self;
+VALUE RB_SERIAL_EXPORT sp_flush_output_data_impl(VALUE self)
 {
 	BOOL   ret;
 	HANDLE fh;

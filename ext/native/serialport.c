@@ -47,8 +47,7 @@ io_open_descriptor_fallback(VALUE klass, int descriptor, int mode, VALUE path, V
  * @see SerialPort#new
  * @see SerialPort#open
  */
-static VALUE sp_create(class, _port)
-   VALUE class, _port;
+static VALUE sp_create(VALUE class, VALUE _port)
 {
    return sp_create_impl(class, _port);
 }
@@ -68,7 +67,7 @@ static VALUE sp_create(class, _port)
  *    (baud, data_bits = 8, stop_bits = 1, parity = (previous_databits == 8 ? NONE : EVEN))
  * A baudrate of nil will keep the old value.
  * The default parity depends on the number of databits configured before this function call.
- * 
+ *
  * @overload set_modem_params(baud, data_bits, stop_bits, parity)
  *    @param baud [Integer] the baud rate
  *    @param data_bits [Integer] the number of data bits
@@ -80,9 +79,7 @@ static VALUE sp_create(class, _port)
  * @return [Hash] the original paramters
  * @raise [ArgumentError] if values are invalide or unsupported
  */
-static VALUE sp_set_modem_params(argc, argv, self)
-   int argc;
-   VALUE *argv, self;
+static VALUE sp_set_modem_params(int argc, VALUE *argv, VALUE self)
 {
    return sp_set_modem_params_impl(argc, argv, self);
 }
@@ -94,20 +91,18 @@ static VALUE sp_set_modem_params(argc, argv, self)
  * @return [nil]
  * @note (POSIX) this value is very approximate
  */
-static VALUE sp_break(self, time)
-   VALUE self, time;
+static VALUE sp_break(VALUE self, VALUE time)
 {
    return sp_break_impl(self, time);
 }
 
 /*
- * Get the state of the DTR line 
+ * Get the state of the DTR line
  *
  * @note (Windows) DTR is not available
  * @return [Integer] the state of DTR line, 0 or 1
  */
-static VALUE sp_get_dtr(self)
-   VALUE self;
+static VALUE sp_get_dtr(VALUE self)
 {
    return sp_get_dtr_impl(self);
 }
@@ -118,8 +113,7 @@ static VALUE sp_get_dtr(self)
  * @return [Integer] the flow control flag
  * @see SerialPort#set_flow_control
  */
-static VALUE sp_get_flow_control(self)
-   VALUE self;
+static VALUE sp_get_flow_control(VALUE self)
 {
    return sp_get_flow_control_impl(self);
 }
@@ -130,8 +124,7 @@ static VALUE sp_get_flow_control(self)
  * @return [Integer] the read timeout, in milliseconds
  * @see SerialPort#set_read_timeout
  */
-static VALUE sp_get_read_timeout(self)
-   VALUE self;
+static VALUE sp_get_read_timeout(VALUE self)
 {
    return sp_get_read_timeout_impl(self);
 }
@@ -142,8 +135,7 @@ static VALUE sp_get_read_timeout(self)
  * @return [Integer] the state of RTS line, 0 or 1
  * @note (Windows) RTS is not available
  */
-static VALUE sp_get_rts(self)
-   VALUE self;
+static VALUE sp_get_rts(VALUE self)
 {
    return sp_get_rts_impl(self);
 }
@@ -154,8 +146,7 @@ static VALUE sp_get_rts(self)
  * @return [Integer] the write timeout, in milliseconds
  * @note (POSIX) write timeouts are not implemented
  */
-static VALUE sp_get_write_timeout(self)
-   VALUE self;
+static VALUE sp_get_write_timeout(VALUE self)
 {
    return sp_get_write_timeout_impl(self);
 }
@@ -166,8 +157,7 @@ static VALUE sp_get_write_timeout(self)
  * @param val [Integer] the desired state of the DTR line, 0 or 1
  * @return [Integer] the original +val+ parameter
  */
-static VALUE sp_set_dtr(self, val)
-   VALUE self, val;
+static VALUE sp_set_dtr(VALUE self, VALUE val)
 {
    return sp_set_dtr_impl(self, val);
 }
@@ -182,8 +172,7 @@ static VALUE sp_set_dtr(self, val)
  * @note SerialPort::HARD uses RTS/CTS handshaking.
  *    DSR/DTR is not supported.
  */
-static VALUE sp_set_flow_control(self, val)
-   VALUE self, val;
+static VALUE sp_set_flow_control(VALUE self, VALUE val)
 {
    return sp_set_flow_control_impl(self, val);
 }
@@ -200,8 +189,7 @@ static VALUE sp_set_flow_control(self, val)
  * @return [Integer] the original +timeout+ parameter
  * @note Read timeouts don't mix well with multi-threading
  */
-static VALUE sp_set_read_timeout(self, val)
-   VALUE self, val;
+static VALUE sp_set_read_timeout(VALUE self, VALUE val)
 {
    return sp_set_read_timeout_impl(self, val);
 }
@@ -212,8 +200,7 @@ static VALUE sp_set_read_timeout(self, val)
  * @param val [Integer] the state of RTS line, 0 or 1
  * @return [Integer] the original +val+ parameter
  */
-static VALUE sp_set_rts(self, val)
-   VALUE self, val;
+static VALUE sp_set_rts(VALUE self, VALUE val)
 {
    return sp_set_rts_impl(self, val);
 }
@@ -225,8 +212,7 @@ static VALUE sp_set_rts(self, val)
  * @return [Integer] the original +val+ parameter
  * @note (POSIX) write timeouts are not implemented
  */
-static VALUE sp_set_write_timeout(self, val)
-   VALUE self, val;
+static VALUE sp_set_write_timeout(VALUE self, VALUE val)
 {
    return sp_set_write_timeout_impl(self, val);
 }
@@ -234,9 +220,7 @@ static VALUE sp_set_write_timeout(self, val)
 /*
  * @private helper
  */
-static void get_modem_params(self, mp)
-   VALUE self;
-   struct modem_params *mp;
+static void get_modem_params(VALUE self, struct modem_params *mp)
 {
    get_modem_params_impl(self, mp);
 }
@@ -248,8 +232,7 @@ static void get_modem_params(self, mp)
  * @return [Integer] the original +data_rate+ parameter
  * @see SerialPort#set_modem_params
  */
-static VALUE sp_set_data_rate(self, data_rate)
-   VALUE self, data_rate;
+static VALUE sp_set_data_rate(VALUE self, VALUE data_rate)
 {
    VALUE argv[4];
 
@@ -267,8 +250,7 @@ static VALUE sp_set_data_rate(self, data_rate)
  * @return [Integer] the original +data_bits+ parameter
  * @see SerialPort#set_modem_params
  */
-static VALUE sp_set_data_bits(self, data_bits)
-   VALUE self, data_bits;
+static VALUE sp_set_data_bits(VALUE self, VALUE data_bits)
 {
    VALUE argv[4];
 
@@ -286,8 +268,7 @@ static VALUE sp_set_data_bits(self, data_bits)
  * @return [Integer] the original +stop_bits+ parameter
  * @see SerialPort#set_modem_params
  */
-static VALUE sp_set_stop_bits(self, stop_bits)
-   VALUE self, stop_bits;
+static VALUE sp_set_stop_bits(VALUE self, VALUE stop_bits)
 {
    VALUE argv[4];
 
@@ -305,8 +286,7 @@ static VALUE sp_set_stop_bits(self, stop_bits)
  * @return [Integer] the original +parity+ parameter
  * @see SerialPort#set_modem_params
  */
-static VALUE sp_set_parity(self, parity)
-   VALUE self, parity;
+static VALUE sp_set_parity(VALUE self, VALUE parity)
 {
    VALUE argv[4];
 
@@ -323,8 +303,7 @@ static VALUE sp_set_parity(self, parity)
  * @return [Integer] the current baud rate
  * @see SerialPort#set_modem_params
  */
-static VALUE sp_get_data_rate(self)
-   VALUE self;
+static VALUE sp_get_data_rate(VALUE self)
 {
    struct modem_params mp;
 
@@ -339,8 +318,7 @@ static VALUE sp_get_data_rate(self)
  * @return [Integer] the current number of data bits
  * @see SerialPort#set_modem_params
  */
-static VALUE sp_get_data_bits(self)
-   VALUE self;
+static VALUE sp_get_data_bits(VALUE self)
 {
    struct modem_params mp;
 
@@ -355,8 +333,7 @@ static VALUE sp_get_data_bits(self)
  * @return [Integer] the current number of stop bits
  * @see SerialPort#set_modem_params for details
  */
-static VALUE sp_get_stop_bits(self)
-   VALUE self;
+static VALUE sp_get_stop_bits(VALUE self)
 {
    struct modem_params mp;
 
@@ -371,8 +348,7 @@ static VALUE sp_get_stop_bits(self)
  * @return [Integer] the current parity
  * @see SerialPort#set_modem_params
  */
-static VALUE sp_get_parity(self)
-   VALUE self;
+static VALUE sp_get_parity(VALUE self)
 {
    struct modem_params mp;
 
@@ -387,8 +363,7 @@ static VALUE sp_get_parity(self)
  * @return [Hash] the serial port configuration
  * @see SerialPort#set_modem_params
  */
-static VALUE sp_get_modem_params(self)
-   VALUE self;
+static VALUE sp_get_modem_params(VALUE self)
 {
    struct modem_params mp;
    VALUE hash;
@@ -408,9 +383,7 @@ static VALUE sp_get_modem_params(self)
 /*
  * @api private
  */
-void get_line_signals_helper(obj, ls)
-   VALUE obj;
-   struct line_signals *ls;
+void get_line_signals_helper(VALUE obj, struct line_signals *ls)
 {
    get_line_signals_helper_impl(obj, ls);
 }
@@ -421,8 +394,7 @@ void get_line_signals_helper(obj, ls)
  * @return [Integer] the state of the CTS line, 0 or 1
  * @see SerialPort#get_signals
  */
-static VALUE sp_get_cts(self)
-   VALUE self;
+static VALUE sp_get_cts(VALUE self)
 {
    struct line_signals ls;
 
@@ -437,8 +409,7 @@ static VALUE sp_get_cts(self)
  * @return [Integer] the state of the DSR line, 0 or 1
  * @see SerialPort#get_signals
  */
-static VALUE sp_get_dsr(self)
-   VALUE self;
+static VALUE sp_get_dsr(VALUE self)
 {
    struct line_signals ls;
 
@@ -453,8 +424,7 @@ static VALUE sp_get_dsr(self)
  * @return [Integer] the state of the DCD line, 0 or 1
  * @see SerialPort#get_signals
  */
-static VALUE sp_get_dcd(self)
-   VALUE self;
+static VALUE sp_get_dcd(VALUE self)
 {
    struct line_signals ls;
 
@@ -469,8 +439,7 @@ static VALUE sp_get_dcd(self)
  * @return [Integer] the state of the RI line, 0 or 1
  * @see SerialPort#get_signals
  */
-static VALUE sp_get_ri(self)
-   VALUE self;
+static VALUE sp_get_ri(VALUE self)
 {
    struct line_signals ls;
 
@@ -488,8 +457,7 @@ static VALUE sp_get_ri(self)
  * @note (Windows) the rts and dtr values are not included
  * @note This method is implemented as both SerialPort#signals and SerialPort#get_signals
  */
-static VALUE sp_signals(self)
-   VALUE self;
+static VALUE sp_signals(VALUE self)
 {
    struct line_signals ls;
    VALUE hash;
@@ -515,8 +483,7 @@ static VALUE sp_signals(self)
  *
  * @return [Boolean] true on success or false if an error occurs.
  */
-static VALUE sp_flush_input_data(self)
-   VALUE self;
+static VALUE sp_flush_input_data(VALUE self)
 {
    return sp_flush_input_data_impl(self);
 }
@@ -526,14 +493,13 @@ static VALUE sp_flush_input_data(self)
  *
  * @return [Boolean] true on success or false if an error occurs.
  */
-static VALUE sp_flush_output_data(self)
-   VALUE self;
+static VALUE sp_flush_output_data(VALUE self)
 {
    return sp_flush_output_data_impl(self);
 }
 
 
-void Init_serialport()
+void Init_serialport(void)
 {
    sBaud = rb_str_new2("baud");
    sDataBits = rb_str_new2("data_bits");
