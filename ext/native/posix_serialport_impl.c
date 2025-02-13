@@ -76,8 +76,8 @@ VALUE sp_create_impl(VALUE class, VALUE _port)
 {
    int fd;
    int num_port;
-   char *port;
-   char *ports[] = {
+   const char *port;
+   const char *ports[] = {
 #if defined(OS_LINUX) || defined(OS_CYGWIN)
       "/dev/ttyS0", "/dev/ttyS1", "/dev/ttyS2", "/dev/ttyS3",
       "/dev/ttyS4", "/dev/ttyS5", "/dev/ttyS6", "/dev/ttyS7"
