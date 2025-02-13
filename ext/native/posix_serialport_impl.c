@@ -75,7 +75,7 @@ int get_fd_helper(VALUE io)
 VALUE sp_create_impl(VALUE class, VALUE _port)
 {
    int fd;
-   int num_port;
+   long num_port;
    const char *port;
    const char *ports[] = {
 #if defined(OS_LINUX) || defined(OS_CYGWIN)
@@ -101,8 +101,8 @@ VALUE sp_create_impl(VALUE class, VALUE _port)
    switch(TYPE(_port))
    {
       case T_FIXNUM:
-         num_port = FIX2INT(_port);
-         if (num_port < 0 || num_port > sizeof(ports) / sizeof(ports[0]))
+         num_port = FIX2LONG(_port);
+         if (num_port < 0 || num_port > (long)(sizeof(ports) / sizeof(ports[0])))
          {
             rb_raise(rb_eArgError, "illegal port number");
          }
