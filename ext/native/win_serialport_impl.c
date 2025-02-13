@@ -578,8 +578,12 @@ VALUE RB_SERIAL_EXPORT sp_get_dtr_impl(VALUE self)
    return self;
 }
 
+#ifndef PURGE_RXABORT
 #define PURGE_RXABORT 0x02
+#endif
+#ifndef PURGE_RXCLEAR
 #define PURGE_RXCLEAR 0x08
+#endif
 VALUE RB_SERIAL_EXPORT sp_flush_input_data_impl(VALUE self)
 {
 	BOOL   ret;
@@ -594,8 +598,12 @@ VALUE RB_SERIAL_EXPORT sp_flush_input_data_impl(VALUE self)
 	return Qtrue;
 }
 
+#ifndef PURGE_TXABORT
 #define PURGE_TXABORT 0x01
+#endif
+#ifndef PURGE_TXCLEAR
 #define PURGE_TXCLEAR 0x04
+#endif
 VALUE RB_SERIAL_EXPORT sp_flush_output_data_impl(VALUE self)
 {
 	BOOL   ret;
