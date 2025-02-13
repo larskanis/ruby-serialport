@@ -602,16 +602,14 @@ VALUE sp_get_read_timeout_impl(VALUE self)
    return INT2FIX(params.c_cc[VTIME] * 100);
 }
 
-VALUE sp_set_write_timeout_impl(VALUE self, VALUE val)
+NORETURN(VALUE sp_set_write_timeout_impl(VALUE self, VALUE val))
 {
    rb_notimplement();
-   return self;
 }
 
-VALUE sp_get_write_timeout_impl(VALUE self)
+NORETURN(VALUE sp_get_write_timeout_impl(VALUE self))
 {
    rb_notimplement();
-   return self;
 }
 
 VALUE sp_break_impl(VALUE self, VALUE time)
