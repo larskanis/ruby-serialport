@@ -240,7 +240,21 @@ VALUE sp_set_modem_params_impl(int argc, VALUE *argv, VALUE self)
 #ifdef B1000000
       case 1000000: data_rate = B1000000; break;
 #endif
-
+#ifdef B1500000
+      case 1500000: data_rate = B1500000; break;
+#endif
+#ifdef B2000000
+      case 2000000: data_rate = B2000000; break;
+#endif
+#ifdef B3000000
+      case 3000000: data_rate = B3000000; break;
+#endif
+#ifdef B3500000
+      case 3500000: data_rate = B3500000; break;
+#endif
+#ifdef B4000000
+      case 4000000: data_rate = B4000000; break;
+#endif
       default:
                    rb_raise(rb_eArgError, "unknown baud rate");
                    break;
