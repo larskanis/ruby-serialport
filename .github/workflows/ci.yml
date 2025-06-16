@@ -20,8 +20,6 @@ jobs:
     name: build gem
 
     runs-on: ubuntu-latest
-    env:
-      PLATFORM: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v4
 
@@ -37,7 +35,7 @@ jobs:
       - name: Upload binary gem
         uses: actions/upload-artifact@v4
         with:
-          name: gem-${{ matrix.platform }}
+          name: gem
           path: pkg/*-*.gem
 
   job_test_native:
@@ -87,11 +85,11 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
       - run: ruby --version
-      - name: Download gem-${{matrix.platform}}
+      - name: Download gem
         uses: actions/download-artifact@v4
         with:
-          name: gem-${{ matrix.platform }}
-      - name: Install gem-${{matrix.platform}}
+          name: gem
+      - name: Install gem
         run: gem install --local *.gem --verbose
       - name: Run tests
         run: |
