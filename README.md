@@ -6,8 +6,6 @@
 
 Ruby/SerialPort is a Ruby library that provides a class for using RS-232 serial ports.  This class also contains low-level functions to check and set the current state of the signals on the line.
 
-The native Windows version of this library supports the Microsoft Visual C++, Borland C++, and MinGW compilers.
-
 There is an alternative gem with MRI, JRuby, and Rubinius support. See below.
 
 ## Installation
