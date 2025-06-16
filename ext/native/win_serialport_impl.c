@@ -45,13 +45,13 @@ static HANDLE get_handle_helper(VALUE io)
 }
 
 /* hack to work around the fact that Ruby doesn't use GetLastError? */
-static void _rb_win32_fail(const char *function_call) {
+static NORETURN( void _rb_win32_fail(const char *function_call) {
   rb_raise(
     rb_eRuntimeError,
-    "%s failed: GetLastError returns %d",
+    "%s failed: GetLastError returns %lu",
     function_call, GetLastError( )
   );
-}
+})
 
 VALUE RB_SERIAL_EXPORT sp_create_impl(VALUE class, VALUE _port)
 {
