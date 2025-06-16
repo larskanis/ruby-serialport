@@ -6,11 +6,11 @@ Gem::Specification.new do |s|
   s.name = "serialport"
   s.license = "GPL-2"
   s.version = SerialPort::VERSION
-  s.authors = ["Guillaume Pierronnet", "Alan Stern", "Daniel E. Shipton", "Tobin Richard", "Hector Parra", "Ryan C. Payne"]
+  s.authors = ["Guillaume Pierronnet", "Alan Stern", "Daniel E. Shipton", "Tobin Richard", "Hector Parra", "Ryan C. Payne", "Lars Kanis"]
   s.summary = "Library for using RS-232 serial ports."
   s.description = "Ruby/SerialPort is a Ruby library that provides a class for using RS-232 serial ports."
-  s.email = "hector@hectorparra.com"
-  s.homepage = "http://github.com/hparra/ruby-serialport/"
+  s.email = "lars@greiz-reinsdorf.de"
+  s.homepage = "http://github.com/larskanis/ruby-serialport/"
 
   s.add_development_dependency "bundler"
   s.add_development_dependency "rake"

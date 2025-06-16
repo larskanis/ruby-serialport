@@ -41,3 +41,4 @@ GPL
 * Tobin Richard <tobin.richard@gmail.com>
 * Hector Parra <hector@hectorparra.com>
 * Ryan C. Payne <rpayne-oss@bullittsystems.com>
+* Lars Kanis <lars@greiz-reinsdorf.de>
