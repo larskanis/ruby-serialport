@@ -1,0 +1,99 @@
+name: CI
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 5 * * 3" # At 05:00 on Wednesday # https://crontab.guru/#0_5_*_*_3
+  push:
+    branches:
+      - master
+    tags:
+      - "*.*.*"
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - "*"
+permissions:
+  contents: read
+
+jobs:
+  rcd_build:
+    name: build gem
+
+    runs-on: ubuntu-latest
+    env:
+      PLATFORM: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+
+      - name: Build ffi.gem
+        run: |
+          bundle install
+          bundle exec rake gem
+
+      - name: Upload binary gem
+        uses: actions/upload-artifact@v4
+        with:
+          name: gem-${{ matrix.platform }}
+          path: pkg/*-*.gem
+
+  job_test_native:
+    name: native test
+    needs: rcd_build
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - windows-latest
+          - macos-13
+          - macos-latest
+          - ubuntu-latest
+          - windows-11-arm
+        ruby:
+          - "head"
+          - "3.4"
+          - "3.3"
+          - "3.2"
+          - "3.1"
+          - "3.0"
+          - "2.7"
+          - "2.6"
+          - "2.5"
+        exclude:
+          - os: macos-latest
+            ruby: "2.5"
+          - os: windows-11-arm
+            ruby: "3.3"
+          - os: windows-11-arm
+            ruby: "3.2"
+          - os: windows-11-arm
+            ruby: "3.1"
+          - os: windows-11-arm
+            ruby: "3.0"
+          - os: windows-11-arm
+            ruby: "2.7"
+          - os: windows-11-arm
+            ruby: "2.6"
+          - os: windows-11-arm
+            ruby: "2.5"
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+      - run: ruby --version
+      - name: Download gem-${{matrix.platform}}
+        uses: actions/download-artifact@v4
+        with:
+          name: gem-${{ matrix.platform }}
+      - name: Install gem-${{matrix.platform}}
+        run: gem install --local *.gem --verbose
+      - name: Run tests
+        run: |
+          bundle install
+          ruby -rserialport -S rake test
