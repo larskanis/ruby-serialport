@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
   s.email = "lars@greiz-reinsdorf.de"
   s.homepage = "http://github.com/larskanis/ruby-serialport/"
 
+  s.required_ruby_version = '>= 2.5'
   s.add_development_dependency "bundler"
   s.add_development_dependency "rake"
   s.add_development_dependency "rake-compiler", ">= 0.4.1"
