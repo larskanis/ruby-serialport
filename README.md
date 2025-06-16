@@ -1,6 +1,6 @@
 # Ruby/SerialPort
 
-[![Build Status](https://travis-ci.org/hparra/ruby-serialport.png?branch=v1.2.2)](https://travis-ci.org/hparra/ruby-serialport)
+[![CI](https://github.com/larskanis/ruby-serialport/actions/workflows/ci.yml/badge.svg)](https://github.com/larskanis/ruby-serialport/actions/workflows/ci.yml)
 
 ## Description
 
