@@ -1,3 +1,14 @@
+1.4.0 => 16-06-2025:    [FIXED] Fix compatibility with ruby-3.4. [#79](https://github.com/hparra/ruby-serialport/pull/79)
+                        [FIXED] Replace ancient K&R function declarations by ANSI style.
+                        [FIXED] Fixed various compiler warnings.
+                        [FIXED] Avoid deprecated access to fptr->fd
+                        [CHANGED] New repository link and add Lars Kanis as new author.
+                        [CHANGED] Move CI from Travis to Github
+                        [CHANGED] Use autoload for SerialPort::VERSION
+                        [REMOVED] Remove compatibility to ruby < 2.5
+
+1.3.2 => 29-09-2021:    [FIXED] Remove calls to rb_secure because it is deprecated and removed in Ruby 3.
+
 1.3.1 => 07/26/2014:    [FIXED] Ruby 2.2 support
                         [NEW] UNIX MARK/SPACE parity (CMSPAR) support
 
