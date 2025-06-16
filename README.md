@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/hparra/ruby-serialport.png?branch=v1.2.2)](https://travis-ci.org/hparra/ruby-serialport)
 
+**ATTENTION:** This repository is outdated. Please go to https://github.com/larskanis/ruby-serialport . Issues are still handled at https://github.com/hparra/ruby-serialport/issues .
+
 ## Description
 
 Ruby/SerialPort is a Ruby library that provides a class for using RS-232 serial ports.  This class also contains low-level functions to check and set the current state of the signals on the line.
